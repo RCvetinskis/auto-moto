@@ -5,6 +5,7 @@ import { HoverLabel } from "../hover-label";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "../ui/skeleton";
+import { useNavDropDown } from "@/store/store";
 
 interface NavItemProps {
   href?: string;
@@ -14,6 +15,7 @@ interface NavItemProps {
 }
 export const NavItem = ({ href, label, active, Component }: NavItemProps) => {
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const { toggle } = useNavDropDown();
 
   return (
     <HoverLabel asChild label={label} align="center">
@@ -29,7 +31,10 @@ export const NavItem = ({ href, label, active, Component }: NavItemProps) => {
           {isDesktop && <p className="text-sm">{label}</p>}
         </Link>
       ) : (
-        <div className="flex items-center gap-2   p-1 rounded-full  cursor-pointer  hover:shadow-4xl transition ">
+        <div
+          onClick={() => toggle()}
+          className="flex items-center gap-2  p-1 rounded-full  cursor-pointer  hover:shadow-4xl transition "
+        >
           <Component />
           {isDesktop && <p className="text-sm">{label}</p>}
         </div>

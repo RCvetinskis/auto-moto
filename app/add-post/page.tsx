@@ -1,5 +1,11 @@
+import { NavBar } from "./components/navigaiton/navbar";
+
 const AddPostPage = () => {
-  return <div>Add post</div>;
+  return (
+    <div>
+      <NavBar />
+    </div>
+  );
 };
 
 export default AddPostPage;

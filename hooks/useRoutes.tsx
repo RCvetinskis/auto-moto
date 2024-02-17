@@ -1,8 +1,25 @@
+"use client";
 import { Bookmark, Heart, Home, LogIn, PlusCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { NavUserBtn } from "@/components/navigation/user/nav-user-btn";
+import { useUser } from "@clerk/nextjs";
 
 const useRoutes = () => {
   const pathname = usePathname();
+  const { isSignedIn, user } = useUser();
+
+  const authRoute = isSignedIn
+    ? {
+        label: user.username?.charAt(0).toUpperCase() + user.username!.slice(1),
+
+        Component: NavUserBtn,
+      }
+    : {
+        href: "/sign-in",
+        label: "Sign In",
+        active: pathname === "/sign-in",
+        Component: LogIn,
+      };
 
   const routes = [
     {
@@ -15,7 +32,7 @@ const useRoutes = () => {
       href: "/add-post",
       label: "Add Post",
       Component: PlusCircle,
-      active: pathname === "/add-post",
+      active: pathname.includes("/add-post"),
     },
     {
       href: "/saved/posts",
@@ -29,13 +46,9 @@ const useRoutes = () => {
       active: pathname === "/saved-searches",
       Component: Bookmark,
     },
-    {
-      href: "/sign-in",
-      label: "Sign In",
-      active: pathname === "/sign-in",
-      Component: LogIn,
-    },
+    authRoute,
   ];
+
   return routes;
 };
 

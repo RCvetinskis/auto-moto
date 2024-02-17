@@ -1,0 +1,282 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  username       String    @unique
+  externalUserId String    @unique
+  email          String    @unique
+  avatar         String
+
+  car           Car[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+
+
+model Car {
+  id                     String                 @id @default(auto()) @map("_id") @db.ObjectId
+
+  userId                 String    @db.ObjectId 
+  user                   User @relation(fields: [userId],references: [id],onDelete:Cascade)
+
+  service                String?     @default("free")
+
+  brand                  String
+  city                   String
+  country                String
+  doors                  String
+  email                  String
+  engine                 String
+  model                  String
+  phone                  String
+  wheelSide              String
+  engine_modification    String?
+  comment                String?
+  drive                  String?
+  VIN                   String?
+  SDK                   String?
+  wheelSize             String?
+  images                String[]
+
+  price                 Int
+  year                  Int
+  month                 Int
+  mileage               Int
+  TA_year               Int?
+  TA_month              Int?
+  gears                 Int?
+  cilinders             Int?
+  kW                    Int?
+  weight                Int?
+
+  defects               Defects
+
+  fuel                  FuelType
+  body                  BodyType
+  gearbox               GearBox
+
+
+  interiorOptions         InteriorOptions?
+  exteriorOptions         ExteriorOptions?
+  electronicOptions       ElectronicsOptions?
+  safetySecurityOptions   SafetySecurityOptions?
+  audioVideoOptions       AudioVideoOptions?
+  otherOptions            OtherOptions?
+
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+
+
+
+
+model InteriorOptions {
+  id                                   String  @id @default(auto()) @map("_id") @db.ObjectId
+  carId                                String    @db.ObjectId @unique
+  car                                  Car @relation(fields: [carId],references: [id],onDelete:Cascade)
+  markedInterior                       Boolean?
+  autonomousHeating                    Boolean?
+  electricallyAdjustableSeats           Boolean?
+  leatherInterior                      Boolean?
+  heatedSeats                          Boolean?
+  trunkCover                           Boolean?
+  electricallyAdjustableSeatsWithMemory Boolean?
+  airConditioning                      Boolean?
+  tintedWindows                        Boolean?
+  multifunctionalSteeringWheel         Boolean?
+  climateControl                       Boolean?
+  sportsSeats                          Boolean?
+  velourInterior                       Boolean?
+  powerWindows                         Boolean?
+  massageSeats                         Boolean?
+  heatedSteeringWheel                  Boolean?
+  ventilatedSeats                      Boolean?
+  other                                Boolean?
+}
+
+model ExteriorOptions {
+  id                                   String  @id @default(auto()) @map("_id") @db.ObjectId
+  carId                                String    @db.ObjectId @unique
+  car                                  Car @relation(fields: [carId],references: [id],onDelete:Cascade)
+
+  automaticallyFoldingMirrors          Boolean?
+  LEDLights                            Boolean?
+  frontHeadlightWasher                 Boolean?
+  summerTireSet                        Boolean?
+  doorClosingAssist                    Boolean?
+  alloyWheels                          Boolean?
+  fogLights                             Boolean?
+  xenonLights                           Boolean?
+  towHook                               Boolean?
+  matrixLights                          Boolean?
+  sunroof                               Boolean?
+  winterTireSet                         Boolean?
+  LEDDaytimeRunningLights               Boolean?
+  panoramicRoof                         Boolean?
+  roofRackMounts                        Boolean?
+  other                                Boolean?
+}
+
+model ElectronicsOptions {
+  id                                   String  @id @default(auto()) @map("_id") @db.ObjectId
+  carId                                String    @db.ObjectId @unique
+  car                                  Car @relation(fields: [carId],references: [id],onDelete:Cascade)
+  distanceSensingSystem                 Boolean?
+  electricallyAdjustableMirrors         Boolean?
+  LCDscreen                             Boolean?
+  headsUpDisplay                        Boolean?
+  automaticallyTurningLights            Boolean?
+  electricallyAdjustableSteeringColumn   Boolean?
+  touchScreen                           Boolean?
+  digitalDashboard                      Boolean?
+  autopilot                             Boolean?
+  electricallyHeatedFrontWindshield     Boolean?
+  navigationGPS                         Boolean?
+  startStopSystem                        Boolean?
+  keylessStartSystem                     Boolean?
+  electricallyOperatedTrunkLid          Boolean?
+  paddleShifters                        Boolean?
+  heatedMirrors                         Boolean?
+  wirelessPhoneCharging                 Boolean?
+  rainSensor                            Boolean?
+  dimmingMirror                         Boolean?
+  voiceControl                          Boolean?
+}
+
+model SafetySecurityOptions {
+  id                                   String  @id @default(auto()) @map("_id") @db.ObjectId
+  carId                                String    @db.ObjectId @unique
+  car                                  Car @relation(fields: [carId],references: [id],onDelete:Cascade)
+
+ viewCamera360                   Boolean?
+  ESP                             Boolean?
+  nightVisionAssistant            Boolean?
+  frontViewCamera                 Boolean?
+  blindSpotMonitoringSystem       Boolean?
+  rearViewCamera                  Boolean?
+  fatigueWarningSystem            Boolean?
+  alarmImmobilizer                Boolean?
+  distanceKeepingSystem           Boolean?
+  hillDescentControl              Boolean?
+  airbags                         Boolean?
+  collisionPreventionSystem       Boolean?
+  automaticParkingSystem          Boolean?
+  ISOFIX                          Boolean?
+  tirePressureMonitoringSystem   Boolean?
+  distantLightsAssistant          Boolean?
+  emergencyBrakingSystem          Boolean?
+  laneKeepingSystem               Boolean?
+  emergencyCallSystem              Boolean?
+  tractionControlSystem            Boolean?
+  dynamicCorneringLights           Boolean?
+  roadSignRecognitionSystem        Boolean?
+  satelliteTrackingSystem          Boolean?
+}
+
+model AudioVideoOptions {
+  id                                   String  @id @default(auto()) @map("_id") @db.ObjectId
+  carId                                String    @db.ObjectId @unique
+  car                                  Car @relation(fields: [carId],references: [id],onDelete:Cascade)
+
+  appleCarPlayAndroidAuto    Boolean?
+  CDPlayer                   Boolean?
+  handsFreeEquipment         Boolean?
+  USBConnection              Boolean?
+  audioPlayer                Boolean?
+  CDChanger                  Boolean?
+  MP3Player                  Boolean?
+  USBTypeCConnection         Boolean?
+  AUXConnection              Boolean?
+  DVDPlayer                  Boolean?
+  additionalAudioEquipment   Boolean?
+  subwoofer                  Boolean?
+  Bluetooth                  Boolean?
+  HiFiaudioSystem            Boolean?
+  TVScreen                   Boolean?
+  // ... other options
+}
+
+model OtherOptions {
+  id                                   String  @id @default(auto()) @map("_id") @db.ObjectId
+  carId                                String    @db.ObjectId @unique
+  car                                  Car @relation(fields: [carId],references: [id],onDelete:Cascade)
+  carFromAmerica                        Boolean?
+  notExploitedInLithuania               Boolean?
+  availableForLeasing                   Boolean?
+  adaptedForDisabled                    Boolean?
+  warranty                              Boolean?
+  increasedEnginePower                  Boolean?
+  readyForMotorsport                    Boolean?
+  serviceBook                           Boolean?
+  multipleSetsOfKeys                    Boolean?
+}
+
+// enums
+
+enum FuelType {
+  gasoline
+  diesel
+  electric
+  hybrid
+  CNG 
+  LPG 
+  bioethanol
+  hydrogen
+  other
+}
+
+enum BodyType {
+  sedan
+  coupe
+  convertible
+  hatchback
+  wagon
+  SUV
+  truck
+  van
+  minivan
+  pickup
+  roadster
+  crossover
+  compact
+  supercar
+  limousine
+  offRoad
+  other
+}
+
+enum GearBox {
+  mechanic
+  automatic
+}
+
+
+
+enum Defects {
+  none
+  damaged
+  burnt
+  transmission 
+  chassis
+  flooded
+  engine 
+  minor 
+  major 
+}
+
+
+

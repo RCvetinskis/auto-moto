@@ -1,6 +1,7 @@
 "use server";
 
 import { utapi } from "@/lib/uploadthing";
+import { imagesType } from "@/types";
 
 export const onUploadImages = async (formData: FormData) => {
   try {
@@ -15,13 +16,28 @@ export const onUploadImages = async (formData: FormData) => {
       return { url: file.data?.url, key: file.data?.key };
     });
 
-    return uploadedImages;
+    const uploadedImagesWithPosition = uploadedImages.map((image, index) => {
+      return { ...image, position: index };
+    });
+    return uploadedImagesWithPosition;
   } catch (error) {
     console.log("ERROR_ACTION , onUploadImages", error);
     throw error;
   }
 };
 
+export const getImages = async (images: imagesType[]) => {
+  try {
+    if (images.length === 0) return null;
+    const imagesKeys = images.map((image) => image.key);
+    const existingImages = await utapi.getFileUrls(imagesKeys);
+    if (!existingImages) return null;
+    return existingImages;
+  } catch (error) {
+    console.log("ERROR_ACTION , getImages", error);
+    throw error;
+  }
+};
 export const onRemoveImages = async (key: string[] | string) => {
   try {
     if (!key) throw new Error("Images not selected!");

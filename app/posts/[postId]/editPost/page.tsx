@@ -1,5 +1,5 @@
 import { getCarBrands } from "@/actions/fetch/cars-api-action";
-import { CarForm } from "@/app/add-post/[transport]/_components/form/car/car-form";
+import { CarFormUpdate } from "@/components/form/car/car-form-update";
 import { getCarById } from "@/lib/car-service";
 import { redirect } from "next/navigation";
 
@@ -13,7 +13,7 @@ const Page = async ({ params }: Props) => {
   if (!currentCar) return redirect("/");
   return (
     <div>
-      <CarForm initialCars={cars} currentCar={currentCar} />
+      {/* <CarFormUpdate initialCars={cars} currentCar={currentCar} />  */}
     </div>
   );
 };

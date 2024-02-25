@@ -12,35 +12,38 @@ import { useMemo, useState, useTransition } from "react";
 import { carFormSchema } from "@/schema/zod-schema";
 
 import { CustomSeparator } from "@/components/ui/custom-separator";
-import { CarMoreItemsModal } from "./car-more-items-modal";
-import { ArrowDownFromLine } from "lucide-react";
+
 import { FirstRow } from "./first-row";
 import { SecondRow } from "./second-row";
 import { ThirdRow } from "./third-row";
 import { ForthRow } from "./forth-row";
 import { ImageUpload } from "../image-upload";
-import { CarBrandApi, FullCarType, imagesType } from "@/types";
+import { CarBrandApi, imagesType } from "@/types";
 import { FinalRow } from "./final-row";
 import { usePost } from "@/store/store";
 import { useRouter } from "next/navigation";
-import { transformCurrentCarToDefaultValues } from "@/utils/transformDefaultvalues";
+import AdditionalInfo from "./additional-info";
+import { SlideContent } from "@/components/modals/slide-content";
+import { useUser } from "@clerk/nextjs";
 
 interface AddCarProps {
   initialCars: CarBrandApi[];
-  currentCar?: FullCarType;
 }
-export const CarForm = ({ initialCars, currentCar }: AddCarProps) => {
+export const CarForm = ({ initialCars }: AddCarProps) => {
   const [images, setImages] = useState<imagesType[] | []>([]);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
   const cars = useMemo(() => initialCars, [initialCars]);
 
+  const { user, isSignedIn } = useUser();
   const form = useForm<z.infer<typeof carFormSchema>>({
     resolver: zodResolver(carFormSchema),
-    defaultValues: currentCar
-      ? transformCurrentCarToDefaultValues(currentCar)
-      : undefined,
+    defaultValues: {
+      required: {
+        email: isSignedIn && user ? user.emailAddresses[0].emailAddress : "",
+      },
+    },
   });
 
   const { addPost } = usePost((state) => state);
@@ -61,15 +64,15 @@ export const CarForm = ({ initialCars, currentCar }: AddCarProps) => {
 
         <SecondRow form={form} />
 
-        <CarMoreItemsModal form={form}>
-          <Button type="button">
-            Submit additional information{" "}
-            <ArrowDownFromLine className="ml-2" size={12} />
-          </Button>
-        </CarMoreItemsModal>
+        <SlideContent text="Submit more information">
+          <CustomSeparator text="Submit more information" />
+          <AdditionalInfo form={form} />
+        </SlideContent>
 
-        <CustomSeparator text="Features" />
-        <ThirdRow form={form} />
+        <SlideContent text="Features">
+          <CustomSeparator text="Features" />
+          <ThirdRow form={form} />
+        </SlideContent>
 
         <CustomSeparator text="Comment" />
         <ForthRow form={form} />
@@ -80,7 +83,7 @@ export const CarForm = ({ initialCars, currentCar }: AddCarProps) => {
         <CustomSeparator text="Contacts" />
         <FinalRow form={form} />
 
-        <footer className="py-10">
+        <footer className="py-10 ">
           <Button
             disabled={isPending}
             type="submit"

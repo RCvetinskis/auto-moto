@@ -1,5 +1,5 @@
 import { getCarBrands } from "@/actions/fetch/cars-api-action";
-import { CarForm } from "./_components/form/car/car-form";
+import { CarForm } from "@/components/form/car/car-form";
 
 const TransportPage = async ({ params }: { params: { transport: string } }) => {
   const transportType = params.transport;

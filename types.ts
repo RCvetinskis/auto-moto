@@ -5,6 +5,7 @@ import {
   Car,
   ElectronicsOptions,
   ExteriorOptions,
+  Images,
   InteriorOptions,
   OtherOptions,
   SafetySecurityOptions,
@@ -25,6 +26,7 @@ export type CarBrandApi = {
 export type imagesType = {
   key: string;
   url: string;
+  position: number;
 };
 
 export type PostType = {
@@ -53,4 +55,5 @@ export type FullCarType = Car & {
   safetySecurityOptions?: SafetySecurityOptions | null;
   audioVideoOptions?: AudioVideoOptions | null;
   otherOptions?: OtherOptions | null;
+  images: Images[];
 };

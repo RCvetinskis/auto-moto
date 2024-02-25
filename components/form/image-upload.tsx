@@ -8,6 +8,7 @@ import { onRemoveImages, onUploadImages } from "@/actions/utapi-action";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/spinner";
+import ImageShuffler from "../image-shuffle";
 
 interface ImageUploadProps {
   images: imagesType[];
@@ -20,6 +21,13 @@ export const ImageUpload = ({ images, setImages }: ImageUploadProps) => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = event.target.files || null;
     if (selectedFiles) {
+      if (selectedFiles.length >= 10) {
+        toast.error("Max 10 images can be uploaded");
+        if (inputRef.current) {
+          inputRef.current.value = "";
+        }
+        return;
+      }
       const formData = new FormData();
       const imagesArr = Array.from(selectedFiles).map((file) => file);
       for (const image of imagesArr) {
@@ -36,6 +44,7 @@ export const ImageUpload = ({ images, setImages }: ImageUploadProps) => {
       });
     }
   };
+
   const clearImage = (key: string) => {
     startTransition(() => {
       onRemoveImages(key)
@@ -63,6 +72,7 @@ export const ImageUpload = ({ images, setImages }: ImageUploadProps) => {
         .catch((error) => toast.error(error.message));
     });
   };
+
   return (
     <div>
       {isPending ? (
@@ -78,6 +88,7 @@ export const ImageUpload = ({ images, setImages }: ImageUploadProps) => {
             images={images}
             onClear={clearImage}
           />
+          <ImageShuffler images={images} setImages={setImages} />
         </div>
       )}
 

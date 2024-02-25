@@ -12,7 +12,9 @@ const createOptionsObject = (options: any): any | undefined => {
 
 const addImages = (images: imagesType[] | undefined) => {
   if (images) {
-    return images.map((image: imagesType) => image.url) as string[];
+    return {
+      create: images,
+    };
   }
   return undefined;
 };

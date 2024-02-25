@@ -48,7 +48,7 @@ model Car {
   VIN                   String?
   SDK                   String?
   wheelSize             String?
-  images                String[]
+  images                Images[]
 
   price                 Int
   year                  Int
@@ -80,7 +80,14 @@ model Car {
   updatedAt   DateTime  @updatedAt
 }
 
-
+model Images {
+  id                                   String  @id @default(auto()) @map("_id") @db.ObjectId
+  carId                                String    @db.ObjectId
+  car                                  Car @relation(fields: [carId],references: [id],onDelete:Cascade)
+  url String
+  key String
+  position Int
+}
 
 
 
@@ -226,6 +233,7 @@ model OtherOptions {
 }
 
 // enums
+
 
 enum FuelType {
   gasoline

@@ -7,24 +7,23 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import { Car } from "@prisma/client";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { FilePen } from "lucide-react";
 import DeletePost from "./actions/delete-post";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { FullCarType } from "@/types";
 
 type Props = {
-  post: Car;
+  post: FullCarType;
   index: number;
 };
 
 const PostCard = ({ post, index }: Props) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const isComment = !!post.comment;
-  const image = post.images[0];
+  const image = post.images[0].url;
   const router = useRouter();
 
   const navigateEdit = () => {
@@ -65,7 +64,8 @@ const PostCard = ({ post, index }: Props) => {
           alt="Post Image"
           width={300}
           height={300}
-          className="aspect-square cursor-pointer  rounded my-3 md:my-0"
+          className="aspect-square cursor-pointer  rounded my-3 md:my-0 hover:scale-95 transition-all opacity-0  duration-[2s] "
+          onLoad={(e) => e.currentTarget.classList.remove("opacity-0")}
         />
 
         <div className="w-full space-y-4">

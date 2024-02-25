@@ -92,10 +92,10 @@ export const carFormSchema = z.object({
     comment: z.coerce.string().optional(),
   }),
 
-  interiorOptions: z.object(interiorProperties),
-  exteriorOptions: z.object(exteriorProperties),
-  electronicOptions: z.object(electronicsProperties),
-  safetySecurityOptions: z.object(safetyProperties),
-  audioVideoOptions: z.object(audioProperties),
-  otherOptions: z.object(otherOptionsProperties),
+  interiorOptions: z.object(interiorProperties).optional(),
+  exteriorOptions: z.object(exteriorProperties).optional(),
+  electronicOptions: z.object(electronicsProperties).optional(),
+  safetySecurityOptions: z.object(safetyProperties).optional(),
+  audioVideoOptions: z.object(audioProperties).optional(),
+  otherOptions: z.object(otherOptionsProperties).optional(),
 });

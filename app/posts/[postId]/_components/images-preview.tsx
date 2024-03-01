@@ -30,15 +30,17 @@ const ImagesPreview = ({ images }: Props) => {
     });
   };
 
+  const selectedImage = images.filter((image) => image.position === current);
+
   return (
-    <Card className="w-full border-none bg-black/95 space-y-4 p-4 ">
+    <Card className="border-none bg-black/95 space-y-4 p-4 ">
       <ImageCarousel initialImages={images} current={current}>
         <div className="w-full  h-[300px] md:h-[600px] mx-auto group relative ">
           <Image
-            src={images[current].url}
+            src={selectedImage[0].url}
             fill
             alt="post image"
-            className="aspect-square rounded-xl object-cover  cursor-pointer transition-opacity opacity-0  duration-[2s]"
+            className="aspect-square rounded-xl object-contain  cursor-pointer transition-opacity opacity-0  duration-[2s]"
             onLoad={(e) => e.currentTarget.classList.remove("opacity-0")}
           />
           <Button className="hidden group-hover:block absolute  top-[45%] right-[45%]  ">
@@ -61,8 +63,8 @@ const ImagesPreview = ({ images }: Props) => {
                 width={200}
                 height={200}
                 className={cn(
-                  "aspect-square rounded-xl transition-opacity duration-[2s]",
-                  image.key === images[current].key && "border border-white"
+                  "aspect-square rounded-xl object-contain transition-opacity duration-[2s]",
+                  image.key === selectedImage[0].key && "border border-white"
                 )}
                 onLoad={(e) => e.currentTarget.classList.remove("opacity-0")}
               />

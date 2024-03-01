@@ -18,19 +18,20 @@ import { SecondRow } from "./second-row";
 import { ThirdRow } from "./third-row";
 import { ForthRow } from "./forth-row";
 import { ImageUpload } from "../image-upload";
-import { CarBrandApi, imagesType } from "@/types";
+import { CarBrandApi } from "@/types";
 import { FinalRow } from "./final-row";
 import { usePost } from "@/store/store";
 import { useRouter } from "next/navigation";
 import AdditionalInfo from "./additional-info";
 import { SlideContent } from "@/components/modals/slide-content";
 import { useUser } from "@clerk/nextjs";
+import { Images } from "@prisma/client";
 
 interface AddCarProps {
   initialCars: CarBrandApi[];
 }
 export const CarForm = ({ initialCars }: AddCarProps) => {
-  const [images, setImages] = useState<imagesType[] | []>([]);
+  const [images, setImages] = useState<Images[] | []>([]);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -47,14 +48,14 @@ export const CarForm = ({ initialCars }: AddCarProps) => {
   });
 
   const { addPost } = usePost((state) => state);
+
   function onSubmit(data: z.infer<typeof carFormSchema>) {
     startTransition(() => {
-      addPost({ data, images });
+      addPost({ type: "car", data, images });
       router.push("/add-post/car/service");
     });
   }
 
-  // TODO: display imges, and reorder them
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

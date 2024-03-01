@@ -24,36 +24,39 @@ import {
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { memo, useState } from "react";
+import { useState } from "react";
+import { TransportColor } from "@/types";
 
-interface FormItemComponentProps {
+type Props = {
   form: any;
-  data: any[];
+  data: TransportColor[];
   name:
     | keyof z.infer<typeof carFormSchema>
     | keyof z.infer<typeof motorcycleFormSchema>;
   label: string;
   placeholder: string;
   disabled?: boolean;
-}
+};
 
-export const FormItemSelect = memo(
-  ({
-    form,
-    data,
-    name,
-    label,
-    placeholder,
-    disabled,
-  }: FormItemComponentProps) => {
-    const [open, setOpen] = useState(false);
+const FormItemColor = ({
+  form,
+  data,
+  name,
+  label,
+  placeholder,
+  disabled,
+}: Props) => {
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<TransportColor | null>(null);
 
-    const onSelect = (item: any) => {
-      form.setValue(name, item);
-      setOpen(false);
-    };
+  const onSelect = (item: TransportColor) => {
+    form.setValue(name, item.name);
+    setSelected(item);
+    setOpen(false);
+  };
 
-    return (
+  return (
+    <div className="flex items-center  gap-3 ">
       <FormField
         control={form.control}
         name={name}
@@ -73,7 +76,8 @@ export const FormItemSelect = memo(
                     )}
                   >
                     {field.value
-                      ? data.find((item) => item === field.value)
+                      ? data.find((item) => item.name === field.value)?.name ??
+                        label
                       : label}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
@@ -86,17 +90,19 @@ export const FormItemSelect = memo(
                   <CommandGroup className="max-h-[300px] overflow-y-auto   capitalize">
                     {data.map((item) => (
                       <CommandItem
-                        value={item}
-                        key={item}
+                        value={item.name}
+                        key={item.hexCode}
                         onSelect={() => onSelect(item)}
                       >
                         <Check
                           className={cn(
                             "mr-2 h-4 w-4",
-                            item === field.value ? "opacity-100" : "opacity-0"
+                            item.name === field.value
+                              ? "opacity-100"
+                              : "opacity-0"
                           )}
                         />
-                        {item}
+                        {item.name}
                       </CommandItem>
                     ))}
                   </CommandGroup>
@@ -108,16 +114,12 @@ export const FormItemSelect = memo(
           </FormItem>
         )}
       />
-    );
-  },
-  (prevProps, nextProps) => {
-    // Only re-render if props other than form have changed
-    return (
-      prevProps.data === nextProps.data &&
-      prevProps.name === nextProps.name &&
-      prevProps.label === nextProps.label &&
-      prevProps.placeholder === nextProps.placeholder &&
-      prevProps.disabled === nextProps.disabled
-    );
-  }
-);
+      <div
+        className="w-6 h-6 rounded-full aspect-square mt-8 "
+        style={{ backgroundColor: selected?.hexCode }}
+      />
+    </div>
+  );
+};
+
+export default FormItemColor;

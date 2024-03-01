@@ -1,4 +1,3 @@
-import { z } from "zod";
 import {
   FormControl,
   FormField,
@@ -7,13 +6,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { carFormSchema } from "@/schema/zod-schema";
-import { UseFormReturn } from "react-hook-form";
-
 import { Input } from "@/components/ui/input";
 
 interface FormItemComponentProps {
-  form: UseFormReturn<z.infer<typeof carFormSchema>>;
+  form: any;
   type: "number" | "string";
   name: any;
   label: string;

@@ -1,4 +1,5 @@
 import db from "./db";
+import { getCurrentUser } from "./user-service";
 
 export const getCarsByUsername = async (username: string) => {
   if (!username) return null;
@@ -22,9 +23,12 @@ export const getCarsByUsername = async (username: string) => {
 };
 
 export const getCarById = async (id: string) => {
+  const currentUser = await getCurrentUser();
+
   const car = await db.car.findUnique({
     where: {
       id,
+      userId: currentUser?.id,
     },
     include: {
       audioVideoOptions: true,
@@ -33,7 +37,11 @@ export const getCarById = async (id: string) => {
       safetySecurityOptions: true,
       otherOptions: true,
       interiorOptions: true,
-      images: true,
+      images: {
+        orderBy: {
+          position: "asc",
+        },
+      },
     },
   });
   if (!car) return null;

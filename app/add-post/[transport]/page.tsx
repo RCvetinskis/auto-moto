@@ -1,5 +1,9 @@
-import { getCarBrands } from "@/actions/fetch/cars-api-action";
+import {
+  getCarBrands,
+  getMotorcycleBrands,
+} from "@/actions/fetch/transport-api-action";
 import { CarForm } from "@/components/form/car/car-form";
+import MotorCycleForm from "@/components/form/motorcycle/motorcycle-form";
 
 const TransportPage = async ({ params }: { params: { transport: string } }) => {
   const transportType = params.transport;
@@ -10,6 +14,16 @@ const TransportPage = async ({ params }: { params: { transport: string } }) => {
       <div>
         <h1 className="capitalize font-bold my-2">{transportType}</h1>
         <CarForm initialCars={cars} />
+      </div>
+    );
+  }
+  if (transportType === "motorcycle") {
+    const motorcycles = await getMotorcycleBrands();
+
+    return (
+      <div>
+        <h1 className="capitalize font-bold my-2">{transportType}</h1>
+        <MotorCycleForm motorcycles={motorcycles} />
       </div>
     );
   }

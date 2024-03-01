@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { carFormSchema } from "./schema/zod-schema";
+import { carFormSchema, motorcycleFormSchema } from "./schema/zod-schema";
 import {
   AudioVideoOptions,
   Car,
@@ -30,7 +30,12 @@ export type imagesType = {
 };
 
 export type PostType = {
-  data: z.infer<typeof carFormSchema> | null;
+  type: "car" | "motorcycle" | null;
+  data:
+    | z.infer<typeof carFormSchema>
+    | z.infer<typeof motorcycleFormSchema>
+    | null;
+
   images: imagesType[];
 };
 
@@ -56,4 +61,9 @@ export type FullCarType = Car & {
   audioVideoOptions?: AudioVideoOptions | null;
   otherOptions?: OtherOptions | null;
   images: Images[];
+};
+
+export type TransportColor = {
+  name: string;
+  hexCode: string;
 };

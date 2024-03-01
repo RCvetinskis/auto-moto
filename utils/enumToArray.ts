@@ -6,3 +6,8 @@ export function enumToArray(currentEnum: any) {
   });
   return mappedValues;
 }
+export function enumToArrayObject(currentEnum: any) {
+  const enumEntries = Object.entries(currentEnum);
+
+  return enumEntries.map(([key, value]) => ({ key, value }));
+}

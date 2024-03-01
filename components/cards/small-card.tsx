@@ -8,11 +8,14 @@ type Props = {
 };
 
 const SmallCard = ({ post }: Props) => {
+  const isImage = post.images.length !== 0;
   return (
     <Card className="cursor-pointer  relative z-20   transition-all ">
       <div className="w-full  h-[200px] group relative ">
         <Image
-          src={post.images[0].url || "/no_image.jpg"}
+          src={
+            isImage ? post.images[0].url : "/no_image.jpg" || "/no_image.jpg"
+          }
           fill
           alt="post image"
           className="aspect-square rounded-t  object-cover  transition-opacity opacity-0  duration-[2s]"

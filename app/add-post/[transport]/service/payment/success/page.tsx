@@ -1,6 +1,7 @@
 "use client";
 
 import { onPostCar } from "@/actions/car-action";
+import { onPostMotorcycle } from "@/actions/motorcylce-action";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,7 +13,7 @@ import {
 } from "@/components/ui/card";
 import { usePost } from "@/store/store";
 import { useUser } from "@clerk/nextjs";
-import { Car } from "@prisma/client";
+import { Car, Motorcyle } from "@prisma/client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -22,21 +23,31 @@ const SuccessPage = () => {
   const { post, service, removeAll } = usePost((state) => state);
   const { user } = useUser();
   const router = useRouter();
-  const [postData, setPostData] = useState<Car | null>(null);
+  const [postData, setPostData] = useState<Car | Motorcyle | null>(null);
   useEffect(() => {
     const paymentStatus = searchParams.get("redirect_status");
     if (!paymentStatus) return;
 
     switch (paymentStatus) {
       case "succeeded":
-        const { data, images } = post;
+        const { data, images, type } = post;
+
         if (service && data) {
-          onPostCar(data, images, service)
-            .then((res) => {
-              setPostData(res);
-              removeAll();
-            })
-            .catch((error) => toast.error(error.message));
+          if (type === "car") {
+            onPostCar(data, images, service)
+              .then((res) => {
+                setPostData(res);
+                removeAll();
+              })
+              .catch((error) => toast.error(error.message));
+          } else {
+            onPostMotorcycle(data, images, service)
+              .then((res) => {
+                setPostData(res);
+                removeAll();
+              })
+              .catch((error) => toast.error(error.message));
+          }
         }
 
         toast.success("Payment succeeded!");

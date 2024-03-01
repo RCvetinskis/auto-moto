@@ -3,9 +3,9 @@ import { z } from "zod";
 import { FormItemSelect } from "../form-item-select";
 import { UseFormReturn } from "react-hook-form";
 import { carFormSchema } from "@/schema/zod-schema";
-import { Car } from "@/types";
+import { CarBrandApi } from "@/types";
 import { useEffect, useState } from "react";
-import { getCarModels } from "@/actions/fetch/cars-api-action";
+import { getCarModels } from "@/actions/fetch/transport-api-action";
 import {
   bodyList,
   defectsList,
@@ -20,7 +20,7 @@ import { FormItemInput } from "../form-item-input";
 
 interface FirstRowProps {
   form: UseFormReturn<z.infer<typeof carFormSchema>>;
-  cars: Car[];
+  cars: CarBrandApi[];
 }
 export const FirstRow = ({ form, cars }: FirstRowProps) => {
   const [isMounted, setIsMounted] = useState(true);

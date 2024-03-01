@@ -10,6 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 
 import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -19,9 +20,26 @@ import { toast } from "sonner";
 type Props = {
   postId: string;
   title: string;
+  classname?: string;
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link"
+    | null
+    | undefined;
+  size?: "default" | "sm" | "lg" | "icon" | null | undefined;
 };
 
-const DeletePost = ({ postId, title }: Props) => {
+const DeletePostModal = ({
+  postId,
+  title,
+  classname,
+  variant,
+  size,
+}: Props) => {
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -41,7 +59,12 @@ const DeletePost = ({ postId, title }: Props) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={"ghost"}>
+        <Button
+          size={size ? size : "default"}
+          className={cn("", classname)}
+          type="button"
+          variant={variant}
+        >
           <Trash />
         </Button>
       </DialogTrigger>
@@ -70,4 +93,4 @@ const DeletePost = ({ postId, title }: Props) => {
     </Dialog>
   );
 };
-export default DeletePost;
+export default DeletePostModal;

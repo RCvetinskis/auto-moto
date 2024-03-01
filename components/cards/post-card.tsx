@@ -7,13 +7,24 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
+
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "../ui/button";
-import { FilePen } from "lucide-react";
-import DeletePost from "./actions/delete-post";
+import {
+  CalendarCheck2,
+  Car,
+  Cog,
+  Fuel,
+  Heart,
+  MapPin,
+  Milestone,
+} from "lucide-react";
+
 import { useRouter } from "next/navigation";
 import { FullCarType } from "@/types";
+import CreatorActions from "./creator-actions";
+import { isCarAuthor } from "@/actions/car-action";
 
 type Props = {
   post: FullCarType;
@@ -21,18 +32,27 @@ type Props = {
 };
 
 const PostCard = ({ post, index }: Props) => {
+  const [isAuthor, setIsAuthor] = useState(false);
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const isComment = !!post.comment;
-  const image = post.images[0].url;
+  const image = post.images.length > 0 ? post.images[0].url : null;
   const router = useRouter();
-
-  const navigateEdit = () => {
-    router.push(`/posts/${post.id}/editPost`);
-  };
 
   const navigatePost = () => {
     router.push(`/posts/${post.id}`);
   };
+
+  // TODO: Pagination
+  // TODO:Save functionality
+  const handleSavePost = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  useEffect(() => {
+    isCarAuthor(post.id)
+      .then((res) => setIsAuthor(res))
+      .catch((e) => console.log(e));
+  }, [post]);
 
   return (
     <div
@@ -43,7 +63,7 @@ const PostCard = ({ post, index }: Props) => {
       <AnimatePresence>
         {hoveredIndex === index && (
           <motion.span
-            className="absolute inset-0 h-full w-full bg-neutral-300  block  rounded-3xl"
+            className="absolute inset-0 h-full w-full bg-gray-300  block  rounded-xl"
             layoutId="hoverBackground"
             initial={{ opacity: 0 }}
             animate={{
@@ -57,52 +77,86 @@ const PostCard = ({ post, index }: Props) => {
           />
         )}
       </AnimatePresence>
-      <Card className="flex flex-col md:flex-row relative z-20">
-        <Image
-          onClick={navigatePost}
-          src={image || "/no_image.jpg"}
-          alt="Post Image"
-          width={300}
-          height={300}
-          className="aspect-square cursor-pointer  rounded my-3 md:my-0 hover:scale-95 transition-all opacity-0  duration-[2s] "
-          onLoad={(e) => e.currentTarget.classList.remove("opacity-0")}
-        />
+      <Card
+        onClick={navigatePost}
+        className="flex flex-col md:flex-row relative z-20 cursor-pointer "
+      >
+        <div className="absolute z-50 bottom-0 right-0 flex items-center">
+          <Button onClick={handleSavePost} variant={"ghost"}>
+            <Heart fill="#000" />
+          </Button>
+          {isAuthor && <CreatorActions post={post} />}
+        </div>
+
+        <div className="w-full lg:w-1/2 h-[300px] group relative -mt-4 md:-mt-0">
+          <Image
+            src={image || "/no_image.jpg"}
+            alt="Post Image"
+            fill
+            className="aspect-square object-cover  rounded my-3 md:my-0  transition-all opacity-0  duration-[2s] "
+            onLoad={(e) => e.currentTarget.classList.remove("opacity-0")}
+          />
+        </div>
 
         <div className="w-full space-y-4">
-          <CardHeader onClick={navigatePost} className="cursor-pointer">
+          <CardHeader>
             <CardTitle>
               {post?.brand} <span>{post?.model}</span>
             </CardTitle>
             <CardTitle className="text-lg">Year {post.year} </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex gap-3 text-neutral-500 text-sm">
-              <div>
-                <p>{post.engine}l</p>
-                <p className="capitalize">{post.fuel}</p>
-              </div>
-            </div>
-            <div className="overflow-y-auto max-h-[100px] text-neutral-500 text-sm">
-              {isComment ? (
-                post.comment
-              ) : (
-                <div className=" space-y-1">
-                  <p>{post.country}</p>
-                  <p>{post.city}</p>
-                  <p>{post.email}</p>
+            <div className="grid grid-cols-3 gap-3 ">
+              <div className="flex gap-2">
+                <CalendarCheck2 size={34} />
+                <div>
+                  <p>Year</p>
+                  <p className="font-bold text-sm">
+                    {post.year} - <span>{post.month}</span>
+                  </p>
                 </div>
-              )}
+              </div>
+              <div className="flex gap-2">
+                <Fuel size={34} />
+                <div>
+                  <p>Fuel Type</p>
+                  <p className="font-bold text-sm capitalize">{post.fuel}</p>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <Milestone size={34} />
+                <div>
+                  <p>Mileage </p>
+                  <p className="font-bold text-sm capitalize">{post.mileage}</p>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <Cog size={34} />
+                <div>
+                  <p>Gear Box </p>
+                  <p className="font-bold text-sm capitalize">{post.gearbox}</p>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <Car size={34} />
+                <div>
+                  <p>Engine </p>
+                  <p className="font-bold text-sm capitalize">
+                    {post.engine}l <span>{post.kW}kW</span>
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <MapPin size={34} />
+                <div>
+                  <p className="font-bold text-sm capitalize">
+                    {post.country} <span>{post.city}</span>
+                  </p>
+                </div>
+              </div>
             </div>
           </CardContent>
           <CardFooter className="font-bold">{post.price}$</CardFooter>
-        </div>
-
-        <div className="flex justify-end items-end p-4">
-          <DeletePost title={post.brand + " " + post.model} postId={post.id} />
-
-          <Button onClick={navigateEdit} variant={"ghost"}>
-            <FilePen />
-          </Button>
         </div>
       </Card>
     </div>

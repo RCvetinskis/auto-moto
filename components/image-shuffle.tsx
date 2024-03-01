@@ -15,11 +15,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { imagesType } from "@/types";
+
+import { Images } from "@prisma/client";
+import { onImagesReorder } from "@/actions/images-action";
+import { toast } from "sonner";
 
 type Props = {
-  images: imagesType[];
-  setImages: React.Dispatch<React.SetStateAction<imagesType[]>>;
+  images: Images[];
+  setImages: React.Dispatch<React.SetStateAction<Images[]>>;
 };
 const ImageShuffler = ({ images, setImages }: Props) => {
   const onDragEnd = (result: DropResult) => {
@@ -38,13 +41,22 @@ const ImageShuffler = ({ images, setImages }: Props) => {
       return { ...image, position: index };
     });
 
+    const imageIds = images
+      .map((img) => img.id)
+      .filter((id) => id !== undefined);
+    if (imageIds.length !== 0) {
+      onImagesReorder(updatedImages)
+        .then((res) => (res ? toast.success(res.message) : null))
+        .catch((e) => toast.error("Something went wrong!"));
+    }
+
     setImages(updatedImages);
   };
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Reorder Images</Button>
+        <Button className="mt-4">Reorder Images</Button>
       </DialogTrigger>
       <DialogContent className="max-w-[1200px] h-screen">
         <DialogHeader>
@@ -71,16 +83,16 @@ const ImageShuffler = ({ images, setImages }: Props) => {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        className="w-fit h-fit bg-gray-200 rounded p-0"
+                        className="w-fit h-fit bg-black/90 text-white rounded-xl  p-0"
                       >
                         <Image
                           alt="image"
                           src={image.url || "/no_image.jpg"}
                           width={250}
                           height={250}
-                          className="aspect-square  rounded transition-opacity opacity-0  duration-[2s]"
-                          onLoadingComplete={(image) =>
-                            image.classList.remove("opacity-0")
+                          className="aspect-square object-contain  rounded transition-opacity opacity-0  duration-[2s]"
+                          onLoad={(e) =>
+                            e.currentTarget.classList.remove("opacity-0")
                           }
                         />
                         <p className="text-center font-bold">{index + 1}</p>

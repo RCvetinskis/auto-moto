@@ -25,6 +25,7 @@ import { CustomSeparator } from "@/components/ui/custom-separator";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import RecommendedPosts from "@/components/posts/recommended-posts";
+import NoImage from "@/components/no-image";
 
 type Props = {
   params: { postId: string };
@@ -52,11 +53,17 @@ const Page = async ({ params }: Props) => {
     params.postId
   );
 
+  const isImage = currentCar.images.length !== 0;
+
   return (
     <Card className="rounded shadow shadow-black ">
       <CardContent>
         <div className="p-2">
-          <ImagesPreview images={currentCar.images} />
+          {isImage ? (
+            <ImagesPreview images={currentCar.images} />
+          ) : (
+            <NoImage width={200} height={200} classname={"mx-auto"} />
+          )}
         </div>
 
         <main className="max-w-[1200px] space-y-6 ">

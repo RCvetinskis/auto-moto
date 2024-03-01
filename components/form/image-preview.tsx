@@ -9,7 +9,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
-import { Spinner } from "../spinner";
 
 interface ImagePreviewProps {
   images: imagesType[];
@@ -29,16 +28,14 @@ export const ImagePreview = ({
           .sort((a, b) => a.position - b.position)
           .map((image) => (
             <CarouselItem key={image.key} className="basis-1/2 lg:basis-1/4  ">
-              <div className="group relative roundex-xl w-fit h-fit bg-gray-200 spin-in-0">
+              <div className="group relative rounded-xl w-fit h-fit bg-black/90 text-white spin-in-0">
                 <Image
                   alt="Car Image"
                   src={image.url || "/no_image.jpg"}
                   width={300}
                   height={300}
-                  className="aspect-square  rounded-xl transition-opacity opacity-0 duration-[2s]"
-                  onLoadingComplete={(image) =>
-                    image.classList.remove("opacity-0")
-                  }
+                  className="aspect-square object-contain  rounded-xl transition-opacity opacity-0 duration-[2s]"
+                  onLoad={(e) => e.currentTarget.classList.remove("opacity-0")}
                 />
                 {images.length > 0 && (
                   <Button

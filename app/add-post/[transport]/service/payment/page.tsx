@@ -11,7 +11,6 @@ const PaymentPage = ({ params }: { params: { transport: string } }) => {
     redirect("/add-post");
   }
 
-  console.log(post);
   return (
     <main className="space-y-4">
       <PostCard />

@@ -1,6 +1,6 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { imagesType } from "@/types";
+
 import { useRef, useTransition } from "react";
 import { ImagePreview } from "./image-preview";
 import { XCircle } from "lucide-react";
@@ -9,10 +9,11 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/spinner";
 import ImageShuffler from "../image-shuffle";
+import { Images } from "@prisma/client";
 
 interface ImageUploadProps {
-  images: imagesType[];
-  setImages: React.Dispatch<React.SetStateAction<imagesType[]>>;
+  images: Images[];
+  setImages: React.Dispatch<React.SetStateAction<Images[]>>;
 }
 export const ImageUpload = ({ images, setImages }: ImageUploadProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -21,7 +22,7 @@ export const ImageUpload = ({ images, setImages }: ImageUploadProps) => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = event.target.files || null;
     if (selectedFiles) {
-      if (selectedFiles.length >= 10) {
+      if (selectedFiles.length >= 11) {
         toast.error("Max 10 images can be uploaded");
         if (inputRef.current) {
           inputRef.current.value = "";
@@ -38,7 +39,7 @@ export const ImageUpload = ({ images, setImages }: ImageUploadProps) => {
       startTransition(() => {
         onUploadImages(formData)
           .then((res) => {
-            setImages(res as imagesType[]);
+            setImages(res as Images[]);
           })
           .catch((error) => toast.error(error.message));
       });

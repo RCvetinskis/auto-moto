@@ -14,6 +14,7 @@ import {
 interface ThirdRowProps {
   form: UseFormReturn<z.infer<typeof carFormSchema>>;
 }
+// TODO: transofrm array to key, value for schema select
 export const ThirdRow = ({ form }: ThirdRowProps) => {
   return (
     <div>
@@ -21,11 +22,13 @@ export const ThirdRow = ({ form }: ThirdRowProps) => {
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-3">
         {interiorList.map((item) => (
           <FormItemCheckBox
-            key={item}
+            key={item.key}
             form={form}
-            label={item}
+            label={item.value}
             name={
-              `interiorOptions.${item}` as keyof z.infer<typeof carFormSchema>
+              `interiorOptions.${item.key}` as keyof z.infer<
+                typeof carFormSchema
+              >
             }
           />
         ))}
@@ -35,11 +38,13 @@ export const ThirdRow = ({ form }: ThirdRowProps) => {
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-3">
         {exteriorList.map((item) => (
           <FormItemCheckBox
-            key={item}
+            key={item.key}
             form={form}
-            label={item}
+            label={item.value}
             name={
-              `exteriorOptions.${item}` as keyof z.infer<typeof carFormSchema>
+              `exteriorOptions.${item.key}` as keyof z.infer<
+                typeof carFormSchema
+              >
             }
           />
         ))}
@@ -48,11 +53,13 @@ export const ThirdRow = ({ form }: ThirdRowProps) => {
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-3">
         {electronicList.map((item) => (
           <FormItemCheckBox
-            key={item}
+            key={item.key}
             form={form}
-            label={item}
+            label={item.value}
             name={
-              `electronicOptions.${item}` as keyof z.infer<typeof carFormSchema>
+              `electronicsOptions.${item.key}` as keyof z.infer<
+                typeof carFormSchema
+              >
             }
           />
         ))}
@@ -62,11 +69,11 @@ export const ThirdRow = ({ form }: ThirdRowProps) => {
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-3">
         {safetyList.map((item) => (
           <FormItemCheckBox
-            key={item}
+            key={item.key}
             form={form}
-            label={item}
+            label={item.value}
             name={
-              `safetySecurityOptions.${item}` as keyof z.infer<
+              `safetySecurityOptions.${item.key}` as keyof z.infer<
                 typeof carFormSchema
               >
             }
@@ -78,11 +85,13 @@ export const ThirdRow = ({ form }: ThirdRowProps) => {
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-3">
         {audioList.map((item) => (
           <FormItemCheckBox
-            key={item}
+            key={item.key}
             form={form}
-            label={item}
+            label={item.value}
             name={
-              `audioVideoOptions.${item}` as keyof z.infer<typeof carFormSchema>
+              `audioVideoOptions.${item.key}` as keyof z.infer<
+                typeof carFormSchema
+              >
             }
           />
         ))}
@@ -92,10 +101,12 @@ export const ThirdRow = ({ form }: ThirdRowProps) => {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         {otherOptionsList.map((item) => (
           <FormItemCheckBox
-            key={item}
+            key={item.key}
             form={form}
-            label={item}
-            name={`otherOptions.${item}` as keyof z.infer<typeof carFormSchema>}
+            label={item.value}
+            name={
+              `otherOptions.${item.key}` as keyof z.infer<typeof carFormSchema>
+            }
           />
         ))}
       </div>

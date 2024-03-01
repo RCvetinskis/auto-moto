@@ -7,14 +7,11 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { carFormSchema } from "@/schema/zod-schema";
-import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
 
 interface FormItemCheckBoxProps {
-  form: UseFormReturn<z.infer<typeof carFormSchema>>;
+  form: any;
   name: any;
-  label: string;
+  label: any;
 }
 
 export const FormItemCheckBox = ({

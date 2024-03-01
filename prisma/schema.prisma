@@ -19,6 +19,7 @@ model User {
   avatar         String
 
   car           Car[]
+  motorcycle    Motorcyle[]
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 }
@@ -82,8 +83,10 @@ model Car {
 
 model Images {
   id                                   String  @id @default(auto()) @map("_id") @db.ObjectId
-  carId                                String    @db.ObjectId
-  car                                  Car @relation(fields: [carId],references: [id],onDelete:Cascade)
+  carId                                String?    @db.ObjectId
+  car                                  Car? @relation(fields: [carId],references: [id],onDelete:Cascade)
+  motorcycleId                         String?    @db.ObjectId
+  motorcycle                           Motorcyle? @relation(fields: [motorcycleId],references: [id],onDelete:Cascade)
   url String
   key String
   position Int
@@ -232,8 +235,102 @@ model OtherOptions {
   multipleSetsOfKeys                    Boolean?
 }
 
+model Motorcyle {
+  id                                   String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId                 String    @db.ObjectId 
+  user                   User @relation(fields: [userId],references: [id],onDelete:Cascade)
+  service                String?     @default("free")
+
+  brand                  String
+  model                  String
+  phone                  String
+  email                  String
+  country                String
+  city                   String
+  comment                String?
+  color                  String?
+  vin                    String?
+  year                   Int
+  month                  Int
+  cc                     Int
+  price                  Int
+  mileage                Int
+  kW                    Int?
+  TA_year               Int?
+  TA_month              Int?
+  weight                Int?
+
+  images                Images[]
+  condition             Condition
+  motorcycleType        MotorcyleType
+  defects               Defects
+  cooling               Cooling?
+  fuel                  MotoFuel?
+  features              MotoFeatures?
+
+}
 // enums
 
+model MotoFeatures {
+  id                     String     @id @default(auto()) @map("_id") @db.ObjectId
+  motorcycleId                                String    @db.ObjectId @unique
+  motorcycle                                  Motorcyle @relation(fields: [motorcycleId],references: [id],onDelete:Cascade)
+  wheelDrive_4x4         Boolean?
+  cruiseControl          Boolean?
+  heatedSeats            Boolean?
+  passengersBackrest     Boolean?
+  abs                    Boolean?
+  damper                 Boolean?
+  keylessEngineStart     Boolean?
+  tractionControlSystem  Boolean?
+  alarmImmobilizer       Boolean?
+  discBrakes             Boolean?
+  lease                  Boolean?
+  travelBags             Boolean?
+  audioEquipment         Boolean?
+  electricStarter        Boolean?
+  ledDaytimeRunningLights Boolean?
+  warranty               Boolean?
+  automaticTransmission  Boolean?
+  flatRearWheel         Boolean?
+  navigationGPS         Boolean?
+  windshield            Boolean?
+  cradle                Boolean?
+  heatedHandles         Boolean?
+  notExploitedInLithuania Boolean?
+  withDocuments         Boolean?
+}
+enum Condition {
+ new
+ used
+}
+enum Cooling {
+ air
+ liquid
+ mixed
+}
+
+enum MotoFuel {
+gasoline
+electric
+}
+
+enum MotorcyleType {
+atv
+chopper
+cruiser
+classical
+streetbike
+enduro
+karting
+mini
+motorcross
+superbike
+moped
+snowmobile
+three_wheel
+touring
+}
 
 enum FuelType {
   gasoline

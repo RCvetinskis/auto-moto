@@ -2,6 +2,7 @@
 import { FullCarType } from "@/types";
 import { Card, CardHeader, CardTitle } from "../ui/card";
 import Image from "next/image";
+import SavePost from "../save-post";
 
 type Props = {
   post: FullCarType;
@@ -9,8 +10,13 @@ type Props = {
 
 const SmallCard = ({ post }: Props) => {
   const isImage = post.images.length !== 0;
+
   return (
     <Card className="cursor-pointer  relative z-20   transition-all ">
+      <div className="absolute z-50 bottom-0 right-0 flex items-center">
+        <SavePost post={post} />
+      </div>
+
       <div className="w-full  h-[200px] group relative ">
         <Image
           src={

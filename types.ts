@@ -9,6 +9,7 @@ import {
   InteriorOptions,
   OtherOptions,
   SafetySecurityOptions,
+  Saved,
 } from "@prisma/client";
 
 export interface INavUserBtn {
@@ -61,6 +62,7 @@ export type FullCarType = Car & {
   audioVideoOptions?: AudioVideoOptions | null;
   otherOptions?: OtherOptions | null;
   images: Images[];
+  saved?: Saved[];
 };
 
 export type TransportColor = {

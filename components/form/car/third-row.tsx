@@ -14,7 +14,7 @@ import {
 interface ThirdRowProps {
   form: UseFormReturn<z.infer<typeof carFormSchema>>;
 }
-// TODO: transofrm array to key, value for schema select
+
 export const ThirdRow = ({ form }: ThirdRowProps) => {
   return (
     <div>

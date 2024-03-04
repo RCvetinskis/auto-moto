@@ -29,9 +29,7 @@ import { memo, useState } from "react";
 interface FormItemComponentProps {
   form: any;
   data: any[];
-  name:
-    | keyof z.infer<typeof carFormSchema>
-    | keyof z.infer<typeof motorcycleFormSchema>;
+  name: string;
   label: string;
   placeholder: string;
   disabled?: boolean;

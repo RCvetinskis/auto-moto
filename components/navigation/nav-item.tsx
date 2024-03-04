@@ -23,8 +23,8 @@ export const NavItem = ({ href, label, active, Component }: NavItemProps) => {
         <Link
           href={href}
           className={cn(
-            "flex items-center gap-2  p-1 rounded-full   hover:shadow-4xl transition ",
-            active && "shadow-4xl"
+            "flex items-center gap-2  p-2 md:p-1 rounded-xl md:rounded-lg  hover:shadow-4xl hover:bg-white transition ",
+            active && "shadow-4xl bg-white"
           )}
         >
           <Component />
@@ -33,7 +33,7 @@ export const NavItem = ({ href, label, active, Component }: NavItemProps) => {
       ) : (
         <div
           onClick={() => toggle()}
-          className="flex items-center gap-2  p-1 rounded-full  cursor-pointer  hover:shadow-4xl transition "
+          className="flex items-center gap-2  p-2 md:p-1 rounded-full  cursor-pointer  hover:shadow-4xl hover:bg-white transition "
         >
           <Component />
           {isDesktop && <p className="text-sm">{label}</p>}
@@ -46,7 +46,7 @@ export const NavItem = ({ href, label, active, Component }: NavItemProps) => {
 export const NavItemSkeleton = () => {
   return (
     <>
-      <div className="flex items-center gap-2   p-1 rounded-full ">
+      <div className="flex items-center gap-2   p-2 md:p-1 rounded-full ">
         <Skeleton className="h-6 w-6 rounded-full bg-gray-500" />
         <Skeleton className="hidden md:block h-2 w-12 rounded bg-gray-500" />
       </div>

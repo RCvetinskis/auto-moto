@@ -15,17 +15,18 @@ import FeaturesRow from "./features-row";
 import CommentRow from "./comment-row";
 import { ContactsRow } from "./contacts-row";
 import { useState, useTransition } from "react";
-import { imagesType } from "@/types";
+
 import { ImageUpload } from "../image-upload";
 import { usePost } from "@/store/store";
 import { useRouter } from "next/navigation";
+import { Images } from "@prisma/client";
 
 type Props = {
   motorcycles: string[];
 };
 
 const MotorCycleForm = ({ motorcycles }: Props) => {
-  const [images, setImages] = useState<imagesType[] | []>([]);
+  const [images, setImages] = useState<Images[] | []>([]);
   const { user, isSignedIn } = useUser();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();

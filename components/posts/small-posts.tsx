@@ -5,19 +5,13 @@ import SmallCard from "../cards/small-card";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import Link from "next/link";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "../ui/carousel";
+import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 
 type Props = {
   posts: FullCarType[];
 };
 
-const RecommendedPosts = ({ posts }: Props) => {
+const SmallPosts = ({ posts }: Props) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   return (
     <Carousel className="w-full ">
@@ -59,4 +53,4 @@ const RecommendedPosts = ({ posts }: Props) => {
   );
 };
 
-export default RecommendedPosts;
+export default SmallPosts;

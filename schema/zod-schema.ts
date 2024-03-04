@@ -122,3 +122,7 @@ export const motorcycleFormSchema = z.object({
   }),
   features: z.object(motorcycleFeaturesProperties).optional(),
 });
+export const searchFormSchema = z.object({
+  brand: z.string().optional(),
+  model: z.string().optional(),
+});

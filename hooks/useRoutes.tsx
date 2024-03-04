@@ -20,7 +20,14 @@ const useRoutes = () => {
         active: pathname === "/sign-in",
         Component: LogIn,
       };
-
+  const savedPostsRoute = isSignedIn
+    ? {
+        label: "Saved Posts",
+        href: `/user/${user.username}/saved/posts`,
+        active: pathname === `/user/${user.username}/saved/posts`,
+        Component: Heart,
+      }
+    : null;
   const routes = [
     {
       href: "/",
@@ -34,12 +41,7 @@ const useRoutes = () => {
       Component: PlusCircle,
       active: pathname.includes("/add-post"),
     },
-    {
-      href: "/saved/posts",
-      label: "Saved Posts",
-      active: pathname === "/saved-posts",
-      Component: Heart,
-    },
+    savedPostsRoute,
     {
       href: "/saved/searches",
       label: "Saved Searches",

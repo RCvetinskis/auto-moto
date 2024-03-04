@@ -20,6 +20,7 @@ model User {
 
   car           Car[]
   motorcycle    Motorcyle[]
+  saved                 Saved[]
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 }
@@ -50,6 +51,7 @@ model Car {
   SDK                   String?
   wheelSize             String?
   images                Images[]
+  saved                 Saved[]
 
   price                 Int
   year                  Int
@@ -81,6 +83,14 @@ model Car {
   updatedAt   DateTime  @updatedAt
 }
 
+model Saved {
+  id                                   String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId                 String    @db.ObjectId 
+  user                   User @relation(fields: [userId],references: [id],onDelete:Cascade)
+  carId                                String?    @db.ObjectId
+  car                                  Car? @relation(fields: [carId],references: [id],onDelete:Cascade)  
+
+}
 model Images {
   id                                   String  @id @default(auto()) @map("_id") @db.ObjectId
   carId                                String?    @db.ObjectId

@@ -68,7 +68,7 @@ const ImageShuffler = ({ images, setImages }: Props) => {
           <Droppable droppableId="image-list" direction="horizontal">
             {(provided) => (
               <div
-                className="grid grid-cols-2 md:grid-cols-4 gap-3 overflow-auto"
+                className="grid grid-cols-3 sm:grid-cols-4 gap-3 overflow-auto"
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >

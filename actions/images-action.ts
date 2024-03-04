@@ -3,6 +3,7 @@
 import db from "@/lib/db";
 import { getCurrentUser } from "@/lib/user-service";
 import { Images } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export const onImagesReorder = async (images: Images[]) => {
   try {
@@ -15,6 +16,9 @@ export const onImagesReorder = async (images: Images[]) => {
         data: { position: image.position },
       });
     });
+
+    revalidatePath(`/posts`);
+    revalidatePath(`/user/${currentUser.username}/posts`);
 
     await Promise.all(updatePromises);
 

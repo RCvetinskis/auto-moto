@@ -24,19 +24,31 @@ import {
 import { CustomSeparator } from "@/components/ui/custom-separator";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import RecommendedPosts from "@/components/posts/recommended-posts";
+import SmallPosts from "@/components/posts/small-posts";
 import NoImage from "@/components/no-image";
+import {
+  audioList,
+  electronicList,
+  exteriorList,
+  interiorList,
+  otherOptionsList,
+  safetyList,
+} from "@/lib/auto-data";
+import { InteriorOption } from "@/enums";
 
 type Props = {
   params: { postId: string };
 };
 
-function objectToArray(options: any) {
-  return Object.entries(options)
-    .filter(([key]) => key !== "id" && key !== "carId")
-    .map(([option]) => option);
+function getFeaturesValues(object: any, featureList: any[]): string[] {
+  const trueFeatureValues: string[] = [];
+  for (const item of featureList) {
+    if (object[item.key] === true) {
+      trueFeatureValues.push(item.value);
+    }
+  }
+  return trueFeatureValues;
 }
-
 const Page = async ({ params }: Props) => {
   const currentCar = await getCarById(params.postId);
 
@@ -217,17 +229,18 @@ const Page = async ({ params }: Props) => {
             <div>
               <h3 className="text-lg font-bold">Interior</h3>
               <div className="grid  grid-cols-2 md:grid-cols-3 gap-3">
-                {objectToArray(currentCar.interiorOptions).map(
-                  (option, index) => (
-                    <Badge
-                      variant={"outline"}
-                      className=" p-2 overflow-hidden capitalize"
-                      key={index}
-                    >
-                      {option}
-                    </Badge>
-                  )
-                )}
+                {getFeaturesValues(
+                  currentCar.interiorOptions,
+                  interiorList
+                ).map((option, index) => (
+                  <Badge
+                    variant={"outline"}
+                    className=" p-2 overflow-hidden capitalize"
+                    key={index}
+                  >
+                    {option}
+                  </Badge>
+                ))}
               </div>
             </div>
           )}
@@ -235,17 +248,18 @@ const Page = async ({ params }: Props) => {
             <div>
               <h3 className="text-lg font-bold">Exterior</h3>
               <div className="grid  grid-cols-2 md:grid-cols-3 gap-3">
-                {objectToArray(currentCar.exteriorOptions).map(
-                  (option, index) => (
-                    <Badge
-                      variant={"outline"}
-                      className=" p-2 overflow-hidden capitalize"
-                      key={index}
-                    >
-                      {option}
-                    </Badge>
-                  )
-                )}
+                {getFeaturesValues(
+                  currentCar.exteriorOptions,
+                  exteriorList
+                ).map((option, index) => (
+                  <Badge
+                    variant={"outline"}
+                    className=" p-2 overflow-hidden capitalize"
+                    key={index}
+                  >
+                    {option}
+                  </Badge>
+                ))}
               </div>
             </div>
           )}
@@ -253,17 +267,18 @@ const Page = async ({ params }: Props) => {
             <div>
               <h3 className="text-lg font-bold">Electronics</h3>
               <div className="grid  grid-cols-2 md:grid-cols-3 gap-3">
-                {objectToArray(currentCar.electronicOptions).map(
-                  (option, index) => (
-                    <Badge
-                      variant={"outline"}
-                      className=" p-2 overflow-hidden capitalize"
-                      key={index}
-                    >
-                      {option}
-                    </Badge>
-                  )
-                )}
+                {getFeaturesValues(
+                  currentCar.electronicOptions,
+                  electronicList
+                ).map((option, index) => (
+                  <Badge
+                    variant={"outline"}
+                    className=" p-2 overflow-hidden capitalize"
+                    key={index}
+                  >
+                    {option}
+                  </Badge>
+                ))}
               </div>
             </div>
           )}
@@ -271,17 +286,18 @@ const Page = async ({ params }: Props) => {
             <div>
               <h3 className="text-lg font-bold">Safety and Security</h3>
               <div className="grid  grid-cols-2 md:grid-cols-3 gap-3">
-                {objectToArray(currentCar.safetySecurityOptions).map(
-                  (option, index) => (
-                    <Badge
-                      variant={"outline"}
-                      className=" p-2 overflow-hidden capitalize"
-                      key={index}
-                    >
-                      {option}
-                    </Badge>
-                  )
-                )}
+                {getFeaturesValues(
+                  currentCar.safetySecurityOptions,
+                  safetyList
+                ).map((option, index) => (
+                  <Badge
+                    variant={"outline"}
+                    className=" p-2 overflow-hidden capitalize"
+                    key={index}
+                  >
+                    {option}
+                  </Badge>
+                ))}
               </div>
             </div>
           )}
@@ -289,7 +305,7 @@ const Page = async ({ params }: Props) => {
             <div>
               <h3 className="text-lg font-bold">Audio and Video</h3>
               <div className="grid  grid-cols-2 md:grid-cols-3 gap-3">
-                {objectToArray(currentCar.audioVideoOptions).map(
+                {getFeaturesValues(currentCar.audioVideoOptions, audioList).map(
                   (option, index) => (
                     <Badge
                       variant={"outline"}
@@ -307,7 +323,10 @@ const Page = async ({ params }: Props) => {
             <div>
               <h3 className="text-lg font-bold">Other</h3>
               <div className="grid  grid-cols-2 md:grid-cols-3 gap-3">
-                {objectToArray(currentCar.otherOptions).map((option, index) => (
+                {getFeaturesValues(
+                  currentCar.otherOptions,
+                  otherOptionsList
+                ).map((option, index) => (
                   <Badge
                     variant={"outline"}
                     className=" p-2 overflow-hidden capitalize"
@@ -339,13 +358,13 @@ const Page = async ({ params }: Props) => {
           {otherSellerPosts.length !== 0 && (
             <div>
               <CustomSeparator text="Other Seller Posts" />
-              <RecommendedPosts posts={otherSellerPosts} />
+              <SmallPosts posts={otherSellerPosts} />
             </div>
           )}
           {recommendPosts.length !== 0 && (
             <div>
               <CustomSeparator text="Recommended Posts" />
-              <RecommendedPosts posts={recommendPosts} />
+              <SmallPosts posts={recommendPosts} />
             </div>
           )}
         </main>

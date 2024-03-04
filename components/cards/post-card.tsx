@@ -9,14 +9,13 @@ import {
 import Image from "next/image";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
-import { Button } from "../ui/button";
+import { useEffect, useState } from "react";
+
 import {
   CalendarCheck2,
   Car,
   Cog,
   Fuel,
-  Heart,
   MapPin,
   Milestone,
 } from "lucide-react";
@@ -25,6 +24,7 @@ import { useRouter } from "next/navigation";
 import { FullCarType } from "@/types";
 import CreatorActions from "./creator-actions";
 import { isCarAuthor } from "@/actions/car-action";
+import SavePost from "../save-post";
 
 type Props = {
   post: FullCarType;
@@ -41,7 +41,6 @@ const PostCard = ({ post, index }: Props) => {
     router.push(`/posts/${post.id}`);
   };
 
-  // TODO: Pagination
   // TODO:Save functionality
   const handleSavePost = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -82,9 +81,7 @@ const PostCard = ({ post, index }: Props) => {
         className="flex flex-col md:flex-row relative z-20 cursor-pointer "
       >
         <div className="absolute z-50 bottom-0 right-0 flex items-center">
-          <Button onClick={handleSavePost} variant={"ghost"}>
-            <Heart fill="#000" />
-          </Button>
+          <SavePost post={post} />
           {isAuthor && <CreatorActions post={post} />}
         </div>
 

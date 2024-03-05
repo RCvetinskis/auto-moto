@@ -16,7 +16,7 @@ export const NavBar = () => {
 
   if (!isMounted || !isLoaded) {
     return (
-      <nav className="fixed top-0 w-full py-3 px-2 md:px-6 bg-inherit h-16 z-50">
+      <nav className="fixed top-0 w-full py-3 px-2 md:px-6  h-16 z-50 !bg-black text-gray-300">
         <div className="flex justify-between items-center">
           {[...Array(5)].map((_, i) => (
             <NavItemSkeleton key={i} />
@@ -26,7 +26,7 @@ export const NavBar = () => {
     );
   }
   return (
-    <nav className="fixed top-0 w-full py-3 px-2 md:px-6 bg-inherit h-16 z-50">
+    <nav className="fixed top-0 w-full py-3 px-2 md:px-6 h-16 z-50 !bg-black text-gray-300">
       <div className="flex justify-between items-center">
         {routes.map((route) => (
           <NavItem

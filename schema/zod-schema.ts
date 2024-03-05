@@ -122,7 +122,25 @@ export const motorcycleFormSchema = z.object({
   }),
   features: z.object(motorcycleFeaturesProperties).optional(),
 });
-export const searchFormSchema = z.object({
+export const carSearchFormSchema = z.object({
   brand: z.string().optional(),
   model: z.string().optional(),
+  yearFrom: z.number().optional(),
+  yearTill: z.number().optional(),
+  priceFrom: z.number().optional(),
+  priceTill: z.number().optional(),
+  fuel: z.array(z.string()).optional(),
+  body: z.array(z.string()).optional(),
+});
+
+export const motoSearchFormSchema = z.object({
+  brand: z.string().optional(),
+  model: z.string().optional(),
+  yearFrom: z.number().optional(),
+  yearTill: z.number().optional(),
+  priceFrom: z.number().optional(),
+  priceTill: z.number().optional(),
+  motorcycleType: z.array(z.string()).optional(),
+  ccFrom: z.array(z.string()).optional(),
+  ccTill: z.array(z.string()).optional(),
 });

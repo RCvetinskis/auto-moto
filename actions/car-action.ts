@@ -211,3 +211,56 @@ export const isCarAuthor = async (carId: string) => {
   if (!car) return false;
   return true;
 };
+
+export const getCarsTotalByBrand = async (brands: string[]) => {
+  if (!brands || brands.length === 0) return null;
+
+  const carsCountPerBrand = await Promise.all(
+    brands.map(async (brand: string) => {
+      const carsCount = await db.car.count({
+        where: {
+          brand,
+        },
+      });
+      return { brand, count: carsCount };
+    })
+  );
+  if (!carsCountPerBrand) return null;
+  return carsCountPerBrand;
+};
+export const getCarsSearchCount = async (
+  brand?: string,
+  model?: string,
+  yearFrom?: number,
+  yearTill?: number,
+  priceFrom?: number,
+  priceTill?: number,
+  fuel?: string[],
+  body?: string[]
+) => {
+  let where = {};
+  if (brand && brand !== "All") where = { ...where, brand };
+
+  if (model) where = { ...where, model };
+  if (yearFrom && yearTill)
+    where = {
+      ...where,
+      AND: [{ year: { gte: yearFrom } }, { year: { lte: yearTill } }],
+    };
+  else if (yearFrom) where = { ...where, year: { gte: yearFrom } };
+  else if (yearTill) where = { ...where, year: { lte: yearTill } };
+  if (priceFrom && priceTill)
+    where = {
+      ...where,
+      AND: [{ price: { gte: priceFrom } }, { price: { lte: priceTill } }],
+    };
+  else if (priceFrom) where = { ...where, price: { gte: priceFrom } };
+  else if (priceTill) where = { ...where, price: { lte: priceTill } };
+  if (fuel && fuel.length > 0) where = { ...where, fuel: { in: fuel } };
+  if (body && body.length > 0) where = { ...where, body: { in: body } };
+  const count = await db.car.count({
+    where,
+  });
+
+  return count;
+};

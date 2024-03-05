@@ -19,7 +19,7 @@ const SmallPosts = ({ posts }: Props) => {
         {posts.map((post, index) => (
           <CarouselItem
             key={post.id}
-            className="cursor-pointer basis-1/2 md:basis-1/4 "
+            className="cursor-pointer basis-1/2 md:basis-1/4  "
           >
             <Link
               href={`/posts/${post.id}`}
@@ -30,7 +30,7 @@ const SmallPosts = ({ posts }: Props) => {
               <AnimatePresence>
                 {hoveredIndex === index && (
                   <motion.span
-                    className="absolute inset-0 h-full w-full bg-gray-200  block  rounded-xl"
+                    className="absolute inset-0 h-full w-full bg-black/90   block  rounded-xl"
                     layoutId="hoverBackground"
                     initial={{ opacity: 0 }}
                     animate={{

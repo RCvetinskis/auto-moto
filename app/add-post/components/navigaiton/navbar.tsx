@@ -32,7 +32,7 @@ export const NavBar = () => {
     <nav>
       <TransportSwitcher transports={transports} disabled={disableSwitcher} />
 
-      <div className="bg-gray-500 rounded my-4 py-3 px-2 flex items-center justify-between text-sm md:text-base">
+      <div className="bg-black text-white rounded my-4 py-3 px-5 flex items-center justify-between text-sm md:text-base">
         {routes.map((route) => (
           <div
             key={route.label}

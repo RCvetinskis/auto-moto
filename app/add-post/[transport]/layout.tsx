@@ -7,7 +7,9 @@ const TransportLayout = ({ children }: TransportLayoutProps) => {
   return (
     <div>
       <NavBar />
-      {children}
+      <div className="bg-white p-3 shadow-4xl shadow-black rounded">
+        {children}
+      </div>
     </div>
   );
 };

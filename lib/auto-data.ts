@@ -60,6 +60,11 @@ export const motorcycleFeatures = enumToArrayObject(MotoFeatures) as {
   key: string;
   value: string;
 }[];
+export const motoCcList = [
+  50, 80, 125, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 750, 800,
+  850, 900, 950, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 2000,
+  2200, 2500,
+];
 
 // Eastern European countries
 const easternEuropeanCountries = [
@@ -99,6 +104,12 @@ export const countriesList = [
   "Germany",
   "France",
   "England",
+];
+
+export const priceSelectList = [
+  300, 500, 150, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 6000,
+  7000, 8000, 9000, 10000, 12500, 15000, 17500, 20000, 25000, 30000, 45000,
+  60000, 70000, 80000, 90000, 100000,
 ];
 
 export const transportColors: TransportColor[] = [

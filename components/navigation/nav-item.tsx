@@ -23,8 +23,8 @@ export const NavItem = ({ href, label, active, Component }: NavItemProps) => {
         <Link
           href={href}
           className={cn(
-            "flex items-center gap-2  p-2 md:p-1 rounded-xl md:rounded-lg  hover:shadow-4xl hover:bg-white transition ",
-            active && "shadow-4xl bg-white"
+            "flex items-center gap-2  p-2 md:p-1 rounded-xl md:rounded-lg  hover:shadow-4xl hover:shadow-gray-300  transition ",
+            active && "shadow-4xl shadow-gray-300"
           )}
         >
           <Component />
@@ -33,7 +33,7 @@ export const NavItem = ({ href, label, active, Component }: NavItemProps) => {
       ) : (
         <div
           onClick={() => toggle()}
-          className="flex items-center gap-2  p-2 md:p-1 rounded-full  cursor-pointer  hover:shadow-4xl hover:bg-white transition "
+          className="flex items-center gap-2  p-2 md:p-1 rounded-full  cursor-pointer  hover:shadow-4xl hover:shadow-gray-300 transition "
         >
           <Component />
           {isDesktop && <p className="text-sm">{label}</p>}

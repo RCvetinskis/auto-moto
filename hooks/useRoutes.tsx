@@ -27,7 +27,24 @@ const useRoutes = () => {
         active: pathname === `/user/${user.username}/saved/posts`,
         Component: Heart,
       }
-    : null;
+    : {
+        label: "Saved Posts",
+        href: "/sign-in",
+        Component: Heart,
+      };
+  const savedSearchesRoute = isSignedIn
+    ? {
+        label: "Saved Searches",
+        href: `/user/${user.username}/saved/searches`,
+        active: pathname === `/user/${user.username}/saved/searches`,
+        Component: Bookmark,
+      }
+    : {
+        label: "Saved Searches",
+        href: "/sign-in",
+        Component: Bookmark,
+      };
+
   const routes = [
     {
       href: "/",
@@ -42,12 +59,7 @@ const useRoutes = () => {
       active: pathname.includes("/add-post"),
     },
     savedPostsRoute,
-    {
-      href: "/saved/searches",
-      label: "Saved Searches",
-      active: pathname === "/saved-searches",
-      Component: Bookmark,
-    },
+    savedSearchesRoute,
     authRoute,
   ];
 

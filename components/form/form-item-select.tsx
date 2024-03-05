@@ -39,6 +39,7 @@ export const FormItemSelect = memo(
   ({
     form,
     data,
+
     name,
     label,
     placeholder,
@@ -57,7 +58,7 @@ export const FormItemSelect = memo(
         name={name}
         render={({ field }) => (
           <FormItem className="w-full">
-            <FormLabel className="text-xs md:text-base">{label}</FormLabel>
+            <FormLabel className="!text-sm md:text-base">{label}</FormLabel>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <FormControl>
@@ -66,7 +67,7 @@ export const FormItemSelect = memo(
                     variant="outline"
                     role="combobox"
                     className={cn(
-                      "w-full  justify-between text-xs md:text-base capitalize",
+                      "w-full  justify-between !text-sm md:text-base capitalize",
                       !field.value && "text-muted-foreground"
                     )}
                   >

@@ -1,12 +1,13 @@
 "use server";
 import axios from "axios";
-
 export const getCarBrands = async () => {
   try {
     const { data } = await axios.get(`${process.env.CARS_API_URL}/cars`);
 
     if (!data) throw new Error("Data not found");
+
     const convertedData = data.map((item: any) => item.brand);
+
     return convertedData;
   } catch (error) {
     console.log("ERROR_ACTION ,getCarBrands", error);

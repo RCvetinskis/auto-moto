@@ -62,7 +62,7 @@ const PostCard = ({ post, index }: Props) => {
       <AnimatePresence>
         {hoveredIndex === index && (
           <motion.span
-            className="absolute inset-0 h-full w-full bg-gray-300  block  rounded-xl"
+            className="absolute inset-0 h-full w-full bg-black/90  block  rounded-xl"
             layoutId="hoverBackground"
             initial={{ opacity: 0 }}
             animate={{
